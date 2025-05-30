@@ -1,0 +1,26 @@
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:     Commit Pledge per 32GiB QAP   R-squared:                       0.046
+Model:                                     OLS   Adj. R-squared:                  0.045
+Method:                          Least Squares   F-statistic:                     1.623
+Date:                         Tue, 27 May 2025   Prob (F-statistic):              0.198
+Time:                                 17:50:32   Log-Likelihood:                 159.92
+No. Observations:                         1684   AIC:                            -313.8
+Df Residuals:                             1681   BIC:                            -297.5
+Df Model:                                    2                                         
+Covariance Type:                           HAC                                         
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+const          -1.7356      0.026    -67.084      0.000      -1.786      -1.685
+dlog_FILUSD     0.1518      0.123      1.238      0.216      -0.088       0.392
+dlog_QAP        4.7519      3.349      1.419      0.156      -1.813      11.316
+==============================================================================
+Omnibus:                       82.675   Durbin-Watson:                   0.121
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              135.177
+Skew:                           0.400   Prob(JB):                     4.43e-30
+Kurtosis:                       4.135   Cond. No.                         101.
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 21 lags and without small sample correction
