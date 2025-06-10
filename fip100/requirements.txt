@@ -1,5 +1,5 @@
-jax==0.6.1
-jaxlib==0.6.1
+jax
+jaxlib
 numpy 
 pandas==1.5.3
 plotly==5.14.1
