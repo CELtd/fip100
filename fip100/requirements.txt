@@ -2,8 +2,8 @@ jax
 jaxlib
 numpy 
 pandas
-plotly==5.14.1
-scikit-learn==1.5.1
+plotly
+scikit-learn
 scipy
-statsmodels==0.14.4
-streamlit==1.40.1
+statsmodels
+streamlit
