@@ -1,10 +1,17 @@
-jax
-jaxlib
-numpy 
-pandas
 plotly
 scikit-learn
-scipy
 statsmodels
-streamlit
 diskcache
+
+pandas==1.5.3
+streamlit
+altair
+watchdog
+jax==0.4.26
+jaxlib==0.4.26
+numpy==1.26.4
+scipy
+matplotlib
+pystarboard @ git+https://github.com/protocol/pystarboard.git
+scenario-generator @ git+https://github.com/protocol/scenario-generator.git
+mechafil-jax @ git+https://github.com/celtd/mechafil-jax.git
