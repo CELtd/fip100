@@ -13,4 +13,4 @@ numpy==2.3.2
 scipy
 matplotlib
 scenario-generator @ git+https://github.com/celtd/scenario-generator.git
-mechafil-jax @ git+https://github.com/celtd/mechafil-jax.git@jax_update
+mechafil-jax @ git+https://github.com/celtd/mechafil-jax.git
