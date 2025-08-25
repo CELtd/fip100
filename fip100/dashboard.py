@@ -108,8 +108,6 @@ DEFAULT_CONFIG = {
     "historical_days": 180,
     "smoothing_days": 30,
     "fip81_activation_date": date(2024, 11, 21),
-    "gamma_target": 0.7,
-    "gamma_ramp_days": 365,
     "auth_token": 'Bearer ghp_EviOPunZooyAagPPmftIsHfWarumaFOUdBUZ',
     "cache_dir": "./cache_directory",
 }
@@ -160,27 +158,15 @@ def run_full_simulation(forecast_length_years, sector_duration_days, lock_target
         _, hist_fpr = u.get_historical_filplus_rate(hist_start_date, current_date)
         smoothed_rbp, smoothed_rr, smoothed_fpr = float(np.median(hist_rbp[-DEFAULT_CONFIG["smoothing_days"]:])), float(np.median(hist_rr[-DEFAULT_CONFIG["smoothing_days"]:])), float(np.median(hist_fpr[-DEFAULT_CONFIG["smoothing_days"]:]))
         local_cache.set(cache_key_data, (offline_data, smoothed_rbp, smoothed_rr, smoothed_fpr))
-    gamma_trajectory = create_gamma_trajectory(current_date, forecast_length_days)
     all_results = []
     for scale_factor in rbp_scaling_factors:
         rbp = jnp.ones(forecast_length_days) * smoothed_rbp * scale_factor
         if scale_factor > 1.0: rr, fpr = (jnp.ones(forecast_length_days) * smoothed_rr, jnp.ones(forecast_length_days) * smoothed_fpr)
         else: rr, fpr = (jnp.ones(forecast_length_days) * min(1.0, smoothed_rr * scale_factor), jnp.ones(forecast_length_days) * min(1.0, smoothed_fpr * scale_factor))
-        sim_results = sim.run_sim(rbp, rr, fpr, lock_target_fraction, start_date, current_date, forecast_length_days, sector_duration_days, offline_data, gamma=gamma_trajectory, gamma_weight_type=0, use_available_supply=False)
+        sim_results = sim.run_sim(rbp, rr, fpr, lock_target_fraction, start_date, current_date, forecast_length_days, sector_duration_days, offline_data, use_available_supply=False)
         all_results.append(sim_results)
     time_vector = du.get_t(start_date, end_date=end_date)
     return all_results, offline_data, time_vector, current_date
-
-def create_gamma_trajectory(current_date, forecast_length_days):
-    days_since_activation = (current_date - DEFAULT_CONFIG["fip81_activation_date"]).days
-    gamma_slope, current_gamma = (1.0 - DEFAULT_CONFIG["gamma_target"]) / DEFAULT_CONFIG["gamma_ramp_days"], 1.0 - (1.0 - DEFAULT_CONFIG["gamma_target"]) / DEFAULT_CONFIG["gamma_ramp_days"] * days_since_activation
-    remaining_ramp_days = max(0, DEFAULT_CONFIG["gamma_ramp_days"] - days_since_activation)
-    if remaining_ramp_days > 0:
-        ramp_down = np.linspace(current_gamma, DEFAULT_CONFIG["gamma_target"], int(remaining_ramp_days))
-        plateau = np.ones(int(forecast_length_days - remaining_ramp_days)) * DEFAULT_CONFIG["gamma_target"]
-        return np.concatenate([ramp_down, plateau])
-    else:
-        return np.ones(forecast_length_days) * DEFAULT_CONFIG["gamma_target"]
 
 # --- Gas Analysis Functions ---
 @st.cache_data
