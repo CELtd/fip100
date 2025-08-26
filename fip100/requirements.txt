@@ -3,15 +3,14 @@ scikit-learn
 statsmodels
 diskcache
 
-pandas==1.5.3
+pandas==2.3.1
 streamlit
 altair
 watchdog
-jax==0.4.26
-jaxlib==0.4.26
-numpy==1.26.4
+jax==0.7.0
+jaxlib==0.7.0
+numpy==2.3.2
 scipy
 matplotlib
-pystarboard @ git+https://github.com/protocol/pystarboard.git
-scenario-generator @ git+https://github.com/protocol/scenario-generator.git
+scenario-generator @ git+https://github.com/celtd/scenario-generator.git
 mechafil-jax @ git+https://github.com/celtd/mechafil-jax.git
